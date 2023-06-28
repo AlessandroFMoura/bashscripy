@@ -1,7 +1,7 @@
 #!/bin/bash
 
-remetente="alessandrof@id.uff.br"
-destinatario="alessandronahal@gmail.com"
+remetente="remetente@mail.com"
+destinatario="destinatario@mail.com"
 assundo="Fita presa"
 corpo="Segue em anexo o relatório do problema!"
 
