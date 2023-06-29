@@ -5,28 +5,26 @@ destinatario="alessandronahal@gmail.com"
 assundo="Fita presa"
 corpo="Segue em anexo o relatório do problema!"
 
-pass=$(cat ~/.secret_vault.txt | openssl enc -aes-256-cbc -md sha512 -a -d -pbkdf2 -iter 100000 -salt -pass pass:'secret#vault!password')
+pass=$(cat .secret_vault.txt | openssl enc -aes-256-cbc -md sha512 -a -d -pbkdf2 -iter 100000 -salt -pass pass:'secret#vault!password')
 
 # element=$(mtx status | grep -i data) 
 
 cat novo.txt > texto.txt  # No lugar do cat use o comando mtx status | grep -i data para salvar a saída dentro de um arquivo de texto
 # comando=$(mtx status | grep -i data)
 
-linha=$(wc -l novo.txt | awk '{print $1+1}') # o awk '{print $1+1}' faz a leitura das linhas incrementando mais 1
+linha=$(grep -cve '^$' texto.txt) # o awk '{print $1+1}' faz a leitura das linhas incrementando mais 1
 
 touch marcador.txt
 echo "linha 1" > marcador.txt
 echo "linha 2" >> marcador.txt
 echo "linha 3" >> marcador.txt
 
-macador=$(cat marcador.txt | wc -l)
+macador=$(grep -cve '^$' marcador.txt)
 
 count=1
 
 touch contador.txt
-saida=$(wc -l contador.txt | awk '{print $1+1}')
-
-
+saida=$(grep -cve '^$' contador.txt)
 
 while [ $count -le $linha ]; do
     
@@ -52,7 +50,7 @@ while [ $count -le $linha ]; do
     count=$((count+1))
 done
 
-# echo "$saida saida"
+echo "$saida saida"
 
 while [ $saida -le $macador ]; do
     sleep 3 # Ajustar o tempo
