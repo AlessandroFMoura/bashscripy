@@ -16,18 +16,20 @@ linha=$(wc -l novo.txt | awk '{print $1+1}') # o awk '{print $1+1}' faz a leitur
 
 touch marcador.txt
 echo "linha 1" > marcador.txt
-echo "linha 1" >> marcador.txt
-echo "linha 1" >> marcador.txt
+echo "linha 2" >> marcador.txt
+echo "linha 3" >> marcador.txt
 
 macador=$(cat marcador.txt| wc -l)
 
 count=1
-ultimo_unload=false
+
 touch contador.txt
 saida=$(wc -l contador.txt | awk '{print $1+1}')
 
 
+
 while [ $count -le $linha ]; do
+    
     gaveta=$(head -n "${count}" texto.txt | cut -d ' ' -f 4 | sed -n "${count}p" | sed 's/:.*//' )
     condicao=$(head -n "${count}" texto.txt | cut -d ' ' -f 4 | sed -n "${count}p"  | sed 's/.://')
 
@@ -37,14 +39,11 @@ while [ $count -le $linha ]; do
         echo "mtx unload $numero $gaveta"
         
         if [ $saida -eq 3 ]; then
-            if [[ "$condicao" = "Full" ]]; then
+   
+            if [[ $condicao = "Full" ]]; then
                 echo "mtx unload $numero $gaveta" >> log.log
-            else
-                fullExists=$(grep -o "Full" log.log)
-                if [ !$fullExists ]; then
-                    rm -f log.log
-                    ultimo_unload=true
-                fi
+                ultimo_unload=true
+         
             fi
         fi
     fi
@@ -53,25 +52,24 @@ while [ $count -le $linha ]; do
     count=$((count+1))
 done
 
-echo "$saida saida"
+# echo "$saida saida"
 
 while [ $saida -le $macador ]; do
     sleep 3 # Ajustar o tempo
-    t=$(cat novo.txt| tail -n 1 | grep -woi "Empty")
-  
-    # if [ $condicao = "Full" ] || [ $t = "Empty" ]; then
-        # echo "entrei"
-    echo "Entrou" >> contador.txt
+    
+    echo "Populando" >> contador.txt
     ./refac.sh
-    # fi
-
+    
     rm -f texto.txt contador.txt
-    if [ $ultimo_unload ]; then   
+    if [ -f log.log ]; then   
         sendemail -f $remetente -t $destinatario -u $assundo -m $corpo -a log.log -s smtp.gmail.com:587 -o tls=yes -xu $remetente -xp $pass > /dev/null 2>&1
         echo "E-mail enviado com sucesso!"
+    else
+        echo "Não há fitas presas" 
     fi
-     
+
     rm log.log > /dev/null 2>&1 
     rm marcador.txt > /dev/null 2>&1 
+    
     break;
 done
