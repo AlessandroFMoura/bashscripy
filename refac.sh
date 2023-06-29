@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-remetente="remetente@mail.com"
-destinatario="destinatario@mail.com"
+remetente="alessandrof@id.uff.br"
+destinatario="alessandronahal@gmail.com"
 assundo="Fita presa"
 corpo="Segue em anexo o relatório do problema!"
 
@@ -19,7 +19,7 @@ echo "linha 1" > marcador.txt
 echo "linha 2" >> marcador.txt
 echo "linha 3" >> marcador.txt
 
-macador=$(cat marcador.txt| wc -l)
+macador=$(cat marcador.txt | wc -l)
 
 count=1
 
@@ -60,16 +60,14 @@ while [ $saida -le $macador ]; do
     echo "Populando" >> contador.txt
     ./refac.sh
     
-    rm -f texto.txt contador.txt
     if [ -f log.log ]; then   
         sendemail -f $remetente -t $destinatario -u $assundo -m $corpo -a log.log -s smtp.gmail.com:587 -o tls=yes -xu $remetente -xp $pass > /dev/null 2>&1
         echo "E-mail enviado com sucesso!"
-    else
-        echo "Não há fitas presas" 
     fi
 
-    rm log.log > /dev/null 2>&1 
-    rm marcador.txt > /dev/null 2>&1 
+    rm -f texto.txt contador.txt
+    rm -f log.log > /dev/null 2>&1 
+    rm -f marcador.txt > /dev/null 2>&1 
     
     break;
 done
