@@ -5,7 +5,7 @@ destinatario="destinatario@mail.com"
 assundo="Fita presa"
 corpo="Segue em anexo o relatório do problema!"
 
-pass=$(cat .secret_vault.txt | openssl enc -aes-256-cbc -md sha512 -a -d -pbkdf2 -iter 100000 -salt -pass pass:'secret#vault!password')
+pass=$(cat ~/.secret_vault.txt | openssl enc -aes-256-cbc -md sha512 -a -d -pbkdf2 -iter 100000 -salt -pass pass:'secret#vault!password')
 
 # element=$(mtx status | grep -i data) 
 
@@ -59,11 +59,11 @@ while [ $saida -le $macador ]; do
     sleep 3 # Ajustar o tempo
     t=$(cat novo.txt| tail -n 1 | grep -woi "Empty")
   
-    if [ $condicao = "Full" ] || [ $t = "Empty" ] ; then
+    # if [ $condicao = "Full" ] || [ $t = "Empty" ]; then
         # echo "entrei"
-        echo "Entrou" >> contador.txt
-        ./refac.sh
-    fi
+    echo "Entrou" >> contador.txt
+    ./refac.sh
+    # fi
 
     rm -f texto.txt contador.txt
     if [ $ultimo_unload ]; then   
