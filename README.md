@@ -1,6 +1,6 @@
 # bashscripy
 
-Esse script está em contrução, tem o objetivo de retirar as fitas das gavetas do robô gerenciado pelo bacula.
+Esse script está em construção, tem o objetivo de retirar as fitas das gavetas do robô gerenciado pelo bacula.
 
 No lugar do remetente coloque o e-mail que ficará responsável por fazer o envio:
 No lugar do destinatario coloque o e-mail que ficará responsável pelo recebimento:
